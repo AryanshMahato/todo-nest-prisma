@@ -7,7 +7,9 @@ export class AppService {
   constructor(private readonly prisma: PrismaService) {}
 
   async fetchAllTodos(): Promise<Todo[]> {
-    return this.prisma.todo.findMany();
+    const todos = await this.prisma.todo.findMany();
+    console.log(todos);
+    return todos;
   }
 
   async fetchTodo(id: number): Promise<Todo> {
