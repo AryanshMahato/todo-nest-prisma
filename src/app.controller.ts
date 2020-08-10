@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Post } from '@nestjs/common';
+import { Body, Controller, Get, Param, Post } from '@nestjs/common';
 import { AppService } from './app.service';
 import { Todo } from '@prisma/client';
 import { CreateTodo } from './Validation/todo';
@@ -8,9 +8,15 @@ export class AppController {
   constructor(private readonly appService: AppService) {}
 
   @Get()
-  async getTodo(): Promise<{ todos: Todo[] }> {
+  async getTodos(): Promise<{ todos: Todo[] }> {
     const todos = await this.appService.fetchAllTodos();
     return { todos };
+  }
+
+  @Get(':id')
+  async getTodo(@Param('id') id: number): Promise<{ todo: Todo }> {
+    const todo = await this.appService.fetchTodo(+id);
+    return { todo };
   }
 
   @Post()
