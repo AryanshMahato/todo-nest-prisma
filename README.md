@@ -36,7 +36,13 @@ $ npm install
 
 ## Running the app
 
+`Add .env file in ./prisma`
+
 ```bash
+# Prisma
+$ npx prisma migrate save --name init --experimental
+$ npx prisma migrate up --experimental
+
 # development
 $ npm run start
 
