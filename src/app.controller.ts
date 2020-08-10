@@ -37,4 +37,10 @@ export class AppController {
     const todo = await this.appService.updateTodoTitle(+id, title);
     return { todo };
   }
+
+  @Patch('/done/:id')
+  async todoDone(@Param('id') id: number): Promise<{ todo: Todo }> {
+    const todo = await this.appService.todoDone(+id);
+    return { todo };
+  }
 }

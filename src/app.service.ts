@@ -24,4 +24,11 @@ export class AppService {
       data: { title: todo },
     });
   }
+
+  async todoDone(id: number): Promise<Todo> {
+    return await this.prisma.todo.update({
+      where: { id },
+      data: { done: true },
+    });
+  }
 }
