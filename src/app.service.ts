@@ -9,4 +9,8 @@ export class AppService {
   async fetchAllTodos(): Promise<Todo[]> {
     return this.prisma.todo.findMany();
   }
+
+  async createTodo(title: string, done: boolean): Promise<Todo> {
+    return await this.prisma.todo.create({ data: { title, done } });
+  }
 }
