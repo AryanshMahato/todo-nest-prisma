@@ -1,3 +1,4 @@
 # Prisma Migrate lockfile v1
 
 20200810154608-added-creator-in-todos
+20200810162429-added-realtion-to-user
