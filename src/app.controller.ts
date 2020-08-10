@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Param, Post } from '@nestjs/common';
+import { Body, Controller, Get, Param, Patch, Post } from '@nestjs/common';
 import { AppService } from './app.service';
 import { Todo } from '@prisma/client';
 import { CreateTodo } from './Validation/todo';
@@ -26,6 +26,15 @@ export class AppController {
       createBody.done,
     );
 
+    return { todo };
+  }
+
+  @Patch(':id')
+  async updateTodoTitle(
+    @Param('id') id: number,
+    @Body('todo') title: string,
+  ): Promise<{ todo: Todo }> {
+    const todo = await this.appService.updateTodoTitle(+id, title);
     return { todo };
   }
 }
