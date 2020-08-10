@@ -1,6 +1,14 @@
-import { Body, Controller, Get, Param, Patch, Post } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  NotFoundException,
+  Param,
+  Patch,
+  Post,
+} from '@nestjs/common';
 import { AppService } from './app.service';
-import { Todo } from '@prisma/client';
+import { Todo, User } from '@prisma/client';
 import { CreateTodo } from './Validation/todo';
 
 @Controller()
@@ -13,6 +21,16 @@ export class AppController {
     return { todos };
   }
 
+  @Get('user')
+  async getUsers(): Promise<{ users: User[] }> {
+    const users = await this.appService.getAllUser();
+
+    if (users.length) return { users };
+
+    //? No users found!
+    throw new NotFoundException('No User found!');
+  }
+
   @Get(':id')
   async getTodo(@Param('id') id: number): Promise<{ todo: Todo }> {
     const todo = await this.appService.fetchTodo(+id);
@@ -21,6 +39,8 @@ export class AppController {
 
   @Post()
   async createTodo(@Body() createBody: CreateTodo): Promise<{ todo: Todo }> {
+    const getUser = await this.appService.getUser(createBody.userId);
+
     const todo = await this.appService.createTodo(
       createBody.todo,
       createBody.done,

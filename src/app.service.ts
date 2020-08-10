@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from './Database/prisma.service';
-import { Todo } from '@prisma/client';
+import { Todo, User } from '@prisma/client';
 
 @Injectable()
 export class AppService {
@@ -18,6 +18,18 @@ export class AppService {
 
   async createTodo(title: string, done: boolean): Promise<Todo> {
     return await this.prisma.todo.create({ data: { title, done } });
+  }
+
+  async createUser(name: string): Promise<User> {
+    return await this.prisma.user.create({ data: { name } });
+  }
+
+  async getUser(id: number): Promise<User> {
+    return await this.prisma.user.findOne({ where: { id } });
+  }
+
+  async getAllUser(): Promise<User[]> {
+    return await this.prisma.user.findMany();
   }
 
   async updateTodoTitle(id: number, todo: string): Promise<Todo> {
